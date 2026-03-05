@@ -1,14 +1,8 @@
-import { createContext, useContext, useState } from "react";
-import { AppConstants } from "../util/constants";
-import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
-axios.defaults.withCredentials = true
-axios.defaults.baseURL = AppConstants.BACKEND_URL
+import api from "../util/axiosConfig";
 
 const AppContext = createContext({
-    isLogged: false,
-    setIsLogged: () => { },
     userData: {
         userId: "",
         username: "",
@@ -19,13 +13,11 @@ const AppContext = createContext({
 })
 
 export const AppContextProvider = ({ children }) => {
-
-    const [isLogged, setIsLogged] = useState(false)
     const [userData, setUserData] = useState({})
 
     const getUserData = async () => {
         try {
-            const response = await axios.get(
+            const response = await api.get(
                 "/profile",
             )
 
@@ -43,10 +35,36 @@ export const AppContextProvider = ({ children }) => {
     }
 
     const contextValue = {
-        isLogged, setIsLogged,
         userData, setUserData,
         getUserData
     }
+
+    useEffect(() => {
+        getUserData()
+    }, [])
+
+    useEffect(() => {
+        const interceptor = api.interceptors.response.use(
+            (response) => response,
+
+            async (error) => {
+                console.log("found error");
+                
+                if (error.response?.status === 401) {
+                    setUserData({});
+                    setIsLogged(false);
+                    toast.error("Session expired. Please login again.");
+                    navigate("/login");
+                }
+
+                return Promise.reject(error);
+            }
+        );
+
+        return () => {
+            api.interceptors.response.eject(interceptor);
+        };
+    }, []);
 
     return (
         <AppContext.Provider value={contextValue}>
