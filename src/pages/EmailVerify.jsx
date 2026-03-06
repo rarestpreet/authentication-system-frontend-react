@@ -1,22 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import Assets from "../assets/assets";
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import { useAppContext } from "../context/AppContext";
-import { toast } from "react-toastify";
 import api from "../util/axiosConfig";
+import { useRouteToast } from "../util/RouteRedirect"
 
 const EmailVerify = () => {
     const inputRef = useRef([])
-    const [loading, setLoading] = useState(false)
-    const { userData } = useAppContext()
+    const { loading, setLoading } = useAppContext()
     const navigate = useNavigate()
 
-    useEffect(() => {
-        if (userData?.isAccountVerified) {
-            toast.error("Email already verified")
-            navigate("/")
-        }
-    }, [userData, navigate])
+    useRouteToast()
 
     const handleChange = (e, index) => {
         const value = e.target.value.replace(/\D/, "")
@@ -66,6 +60,9 @@ const EmailVerify = () => {
         }
         catch (ex) {
             toast.error(ex.response ? ex.response.message : "Network error")
+        }
+        finally {
+            setLoading(false)
         }
     }
 

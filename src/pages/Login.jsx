@@ -1,18 +1,20 @@
-import { useState } from "react";
-import Assets from "../assets/assets";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useAppContext } from "../context/AppContext";
-import { toast } from "react-toastify";
+import { useState } from "react"
+import Assets from "../assets/assets"
+import { Link, useNavigate } from "react-router-dom"
+import api from "../util/axiosConfig"
+import { useAppContext } from "../context/AppContext"
+import { useRouteToast } from "../util/RouteRedirect"
+import { toast } from "react-toastify"
 
 const Login = () => {
     const [isCreateAccount, setisCreateAccount] = useState(true)
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [loading, setLoading] = useState(false)
-    const { setIsLogged, backend_URL, getUserData } = useAppContext()
+    const { loading, setLoading, getUserData } = useAppContext()
     const navigate = useNavigate()
+
+    useRouteToast()
 
     const onSubmitHandler = async (e) => {
         e.preventDefault()
@@ -26,12 +28,12 @@ const Login = () => {
             }
 
             try {
-                const response = await axios.post(
+                await api.post(
                     "/register",
                     user
                 )
 
-                toast.success("Account creeated successfully")
+                toast.success("Account created successfully")
                 navigate("/")
             }
             catch (ex) {
@@ -53,24 +55,20 @@ const Login = () => {
             }
 
             try {
-                const response = await axios.post(
+                await api.post(
                     "/login",
                     user
-                );
-                console.log(response)
+                )
 
-
-                toast.success("Logged in successfully");
-                await getUserData();
-                localStorage.setItem("isLogged", "true")
-                setIsLogged(true);
-                navigate("/");
+                toast.success("Logged in successfully")
+                await getUserData()
+                navigate("/")
 
             } catch (ex) {
                 if (ex.response) {
-                    toast.error(ex.response.data.message);
+                    toast.error(ex.response.data.message)
                 } else {
-                    toast.error("Network Error");
+                    toast.error("Network Error")
                 }
             }
             finally {
@@ -158,7 +156,7 @@ const Login = () => {
                             Forgot password?</Link>
                     </div>
                     <div className="d-flex justify-content-center">
-                        <button type="submit" className="btn btn-primary w-50">
+                        <button type="submit" className="btn btn-primary w-50" disabled={loading}>
                             {loading ? "Loading" : (isCreateAccount ? "Sign up" : "Login")}
                         </button>
                     </div>
