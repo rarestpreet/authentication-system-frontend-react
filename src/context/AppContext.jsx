@@ -9,34 +9,45 @@ const AppContext = createContext({
         isAccountVerified: false
     },
     setUserData: () => { },
-    getUserData: async () => { }
+    getUserData: async () => { },
+    loading: false,
+    setLoading: () => { }
 })
 
 export const AppContextProvider = ({ children }) => {
     const [userData, setUserData] = useState({})
+    const [loading, setLoading] = useState(false)
 
     const getUserData = async () => {
+        setLoading(true)
+
         try {
             const response = await api.get(
                 "/profile",
             )
+            console.log("user: " + JSON.stringify(response.data));
+
 
             setUserData(response.data)
             return response.data
         }
         catch (ex) {
             if (ex.response) {
-                toast.error(ex.response)
+                toast.error(ex.response.message)
             }
             else {
                 toast.error("Network error")
             }
         }
+        finally {
+            setLoading(false)
+        }
     }
 
     const contextValue = {
         userData, setUserData,
-        getUserData
+        getUserData,
+        loading, setLoading
     }
 
     useEffect(() => {
@@ -49,7 +60,7 @@ export const AppContextProvider = ({ children }) => {
 
             async (error) => {
                 console.log("found error");
-                
+
                 if (error.response?.status === 401) {
                     setUserData({});
                     setIsLogged(false);

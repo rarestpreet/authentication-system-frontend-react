@@ -6,8 +6,6 @@ const Header = () => {
     const navigate = useNavigate()
     const { userData } = useAppContext()
 
-    console.log(userData)
-
     return (
         <div className="text-center d-flex flex-column align-items-center justify-content-center py-5 px-3" style={{ minHeight: "80vh" }}>
             <img src={Assets.header} alt="header" width={200} className="mb-4" />

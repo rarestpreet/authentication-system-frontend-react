@@ -95,12 +95,20 @@ const MenuBar = () => {
                                         style={{
                                             cursor: "pointer"
                                         }}
-                                        onClick={sendVerificationOtp }
+                                        onClick={sendVerificationOtp}
                                     >
                                         Verify email
                                     </div>
                                 )}
-                                <div className="dropdown-item py-1 px-2 text-danger cursor-pointer"
+                                <div className="dropdown-item py-1 px-2"
+                                    style={{
+                                        cursor: "pointer"
+                                    }}
+                                    onClick={() => navigate("/reset-password")}
+                                >
+                                    Change password
+                                </div>
+                                <div className="dropdown-item py-1 px-2 text-danger"
                                     style={{
                                         cursor: "pointer"
                                     }}
