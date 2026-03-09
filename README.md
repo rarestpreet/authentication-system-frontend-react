@@ -1,16 +1,114 @@
-# React + Vite
+# Authify Frontend – Authentication System UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Authify Frontend is a React-based user interface for the **Authify authentication system**. It provides pages for user registration, login, and protected routes, communicating with the backend using REST APIs and **JWT authentication**.
 
-Currently, two official plugins are available:
+This project demonstrates how to build a modern authentication frontend using React and API integration.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- User registration
+- Secure login system
+- Logout functionality
+- Protected routes using authentication context
+- Toast notifications for user feedback
+- API integration with authentication backend
+- Responsive UI using Bootstrap
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+
+- **Frontend:** React, React Router, Axios, Bootstrap
+- **Language:** JS, CSS, HTML
+- **API Style:** RESTful APIs
+
+---
+
+## Project Structure
+
+```text
+src
+├── assets        → Images and static files
+├── components    → Reusable UI components
+├── context       → Authentication context
+├── pages         → Application pages
+├── util          → Utility functions
+│
+├── App.jsx
+├── main.jsx
+└── index.css
+```
+
+---
+
+## Backend Integration
+
+This frontend works with the **Authify Backend API**:
+
+- Backend repository: `https://github.com/rarestpreet/Authify_Backend`
+
+The frontend communicates with the backend using **Axios** for API requests and manages authentication using **JWT tokens**.
+
+---
+
+## Installation
+
+### 1️. Clone the repository
+
+```bash
+git clone https://github.com/rarestpreet/Authify_Frontend.git
+```
+
+### 2️. Install dependencies
+
+```bash
+npm install
+```
+
+### 3️. Start the development server
+
+```bash
+npm run dev
+```
+
+The application will run at:
+
+- `http://localhost:5173`
+
+Make sure the backend is running (commonly):
+
+- `http://localhost:8080`
+
+---
+
+## Authentication Flow
+
+1. User enters login credentials
+2. Frontend sends request to backend API
+3. Backend validates user and returns a JWT token
+4. Token is stored in the client (Http-cookies)
+5. Token is attached to future API requests (e.g., `Authorization: Bearer <token>`)
+6. Protected routes are accessible only to authenticated users
+
+---
+
+## Learning Objectives
+
+This project demonstrates:
+
+- React authentication flows
+- API integration using Axios
+- Protected routes with React Router
+- State management using Context API
+- Building UI with Bootstrap
+
+---
+
+## Future Improvements
+
+- Refresh token support
+- Dark mode UI
+- Role-based access control
+- Deployment using Docker
