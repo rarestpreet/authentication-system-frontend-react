@@ -1,8 +1,7 @@
 import axios from "axios";
-import { AppConstants } from "./constants";
 
 const api = axios.create({
-    baseURL: AppConstants.BACKEND_URL,
+    baseURL: import.meta.env.VITE_BACKEND_URL,
     withCredentials: true
 });
 

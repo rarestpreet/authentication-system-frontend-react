@@ -1,3 +1,9 @@
-export const AppConstants = {
-    BACKEND_URL: "http://localhost:8080/api",
+const USER_PROFILE_DETAILS = "userData"
+const RESET_STORAGE_KEY = "resetPasswordState"
+
+const constants = {
+    USER_PROFILE_DETAILS,
+    RESET_STORAGE_KEY,
 }
+
+export default constants
