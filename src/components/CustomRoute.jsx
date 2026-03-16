@@ -1,5 +1,7 @@
 import { useAppContext } from "../context/AppContext.js"
 import { Navigate, Outlet } from "react-router-dom"
+import { useEffect } from "react"
+import handleToast from "../util/toast.js"
 
 export const ProtectedRoute = () => {
     const { loading, userData } = useAppContext()
@@ -12,12 +14,20 @@ export const ProtectedRoute = () => {
         )
     }
 
+    useEffect(() => {
+        if (!loading && !userData?.username) {
+            handleToast.notifyInfo("Please login first")
+        } else if (!loading && userData?.isAccountVerified) {
+            handleToast.notifyInfo("Your email is already verified")
+        }
+    }, [loading, userData])
+
     if (!userData?.username) {
-        return <Navigate to="/login" state={{ message: "Please login first" }} replace />
+        return <Navigate to="/login" replace />
     }
 
     if (userData?.isAccountVerified) {
-        return <Navigate to="/" state={{ message: "Your email is already verified" }} replace />
+        return <Navigate to="/" replace />
     }
 
     return <Outlet />
@@ -26,8 +36,14 @@ export const ProtectedRoute = () => {
 export const PublicRoute = () => {
     const { userData } = useAppContext()
 
+    useEffect(() => {
+        if (userData?.username) {
+            handleToast.notifyInfo("Already logged in")
+        }
+    }, [userData])
+
     if (userData?.username) {
-        return <Navigate to="/" state={{ message: "Already logged in" }} replace />
+        return <Navigate to="/" replace />
     }
 
     return <Outlet />

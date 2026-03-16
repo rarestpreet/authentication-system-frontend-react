@@ -1,18 +1,15 @@
 import api from "../util/axiosConfig.js"
-import {useNavigate} from "react-router-dom"
-import {useState, useEffect} from "react"
-import {AppContext} from "../context/AppContext.js";
-import handleSessionStorage from "../services/handleSessionStorage.js";
-import apiMethod from "../services/api.js";
-import handleToast from "../util/toast.js";
+import { useLocation, useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { AppContext } from "../context/AppContext.js"
+import handleToast from "../util/toast.js"
+import apiMethod from "../services/api.js"
 
-const AppContextProvider = ({children}) => {
-    const storedUserData = handleSessionStorage.getUserProfile_Session()
-
-    const [userData, setUserData] = useState(storedUserData || {})
+const AppContextProvider = ({ children }) => {
+    const [userData, setUserData] = useState({})
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
-
+    const location = useLocation()
 
 
     const contextValue = {
@@ -30,7 +27,6 @@ const AppContextProvider = ({children}) => {
 
             async (error) => {
                 if (error.response?.status === 401) {
-                    handleSessionStorage.clearUserProfile_Session()
                     setUserData({})
                     handleToast.notifyError("Session expired. Please login again.")
                     navigate("/login")
