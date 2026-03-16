@@ -1,18 +1,15 @@
-import {Link, useNavigate} from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Assets from "../assets/assets"
-import {useRef} from "react"
-import {useAppContext} from "../context/AppContext.js"
-import {useRouteToast} from "../components/RouteRedirect.jsx"
+import { useRef } from "react"
+import { useAppContext } from "../context/AppContext.js"
 import inputHandler from "../util/inputHandler.js"
 import apiMethod from "../services/api.js";
 import handleToast from "../util/toast.js";
 
 const EmailVerify = () => {
     const inputRef = useRef([])
-    const {loading, setLoading, setUserData} = useAppContext()
+    const { loading, setLoading, setUserData } = useAppContext()
     const navigate = useNavigate()
-
-    useRouteToast()
 
     const handleVerify = async () => {
         const otp = inputRef.current.map(input => input.value).join("")
@@ -22,8 +19,6 @@ const EmailVerify = () => {
         }
 
         await apiMethod.verifyEmail(otp, setLoading, navigate, setUserData)
-
-
     }
 
 
@@ -38,7 +33,7 @@ const EmailVerify = () => {
                 to="/"
                 className="position-absolute top-0 start-0 p-4 d-flex align-items-center gap-2 text-decoration-none"
             >
-                <img src={Assets.logo} alt="logo" height={32} width={32}/>
+                <img src={Assets.logo} alt="logo" height={32} width={32} />
                 <span className="fs-4 fw-semibold text-light">
                     Authify
                 </span>

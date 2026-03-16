@@ -1,8 +1,7 @@
-import {useState} from "react"
+import { useState } from "react"
 import Assets from "../assets/assets"
-import {Link, useNavigate} from "react-router-dom"
-import {useAppContext} from "../context/AppContext.js"
-import {useRouteToast} from "../components/RouteRedirect.jsx"
+import { Link, useNavigate } from "react-router-dom"
+import { useAppContext } from "../context/AppContext.js"
 import apiMethod from "../services/api.js";
 
 const Login = () => {
@@ -10,10 +9,8 @@ const Login = () => {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const {loading, setLoading, setUserData} = useAppContext()
+    const { loading, setLoading, setUserData } = useAppContext()
     const navigate = useNavigate()
-
-    useRouteToast()
 
     const onSubmitHandler = async (e) => {
         e.preventDefault()
@@ -54,11 +51,11 @@ const Login = () => {
                     left: "30px"
                 }}
             >
-                <img src={Assets.logo} alt="logo" height={32} width={32}/>
+                <img src={Assets.logo} alt="logo" height={32} width={32} />
                 <span>Authify</span>
             </Link>
 
-            <div className="card p-4" style={{maxWidth: "400px", width: "100%"}}>
+            <div className="card p-4" style={{ maxWidth: "400px", width: "100%" }}>
                 <h2 className="text-center mb-4">
                     {isCreateAccount ? "Create Account" : "Login"}
                 </h2>
@@ -78,7 +75,7 @@ const Login = () => {
                                     placeholder="Enter username"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    required/>
+                                    required />
                             </div>
                         )
                     }
@@ -95,7 +92,7 @@ const Login = () => {
                             placeholder="Enter email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            required/>
+                            required />
                     </div>
                     <div className="mb-3">
                         <label
@@ -110,7 +107,7 @@ const Login = () => {
                             placeholder="Enter password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            required/>
+                            required />
                     </div>
                     <div className="d-flex justify-content-between mb-3">
                         <Link to="/reset-password" className="text-decoration-none">
@@ -131,7 +128,7 @@ const Login = () => {
                                     <span>Already have an account?</span>
                                     <span
                                         className="text-decoration-underline"
-                                        style={{cursor: "pointer"}}
+                                        style={{ cursor: "pointer" }}
                                         onClick={() => setIsCreateAccount(false)}
                                     >
                                         Login here
@@ -143,7 +140,7 @@ const Login = () => {
                                     <span>Don't have an account?</span>
                                     <span
                                         className="text-decoration-underline"
-                                        style={{cursor: "pointer"}}
+                                        style={{ cursor: "pointer" }}
                                         onClick={() => setIsCreateAccount(true)}
                                     >
                                         Signup here

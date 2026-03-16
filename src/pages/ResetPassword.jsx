@@ -1,8 +1,7 @@
-import {Link} from "react-router-dom"
-import {useRef, useState} from "react"
-import {useNavigate} from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
+import { useRef, useState } from "react"
 import Assets from "../assets/assets"
-import {useAppContext} from "../context/AppContext.js"
+import { useAppContext } from "../context/AppContext.js"
 import inputHandler from "../util/inputHandler.js"
 import handleSessionStorage from "../services/handleSessionStorage.js";
 import apiMethod from "../services/api.js";
@@ -18,7 +17,7 @@ const ResetPassword = () => {
     const [otp, setOtp] = useState(stored.otp || "")
     const [isOtpSubmitted, setIsOtpSubmitted] = useState(stored.isOtpSubmitted || false)
 
-    const {loading, setLoading, setUserData} = useAppContext()
+    const { loading, setLoading, setUserData } = useAppContext()
 
 
     const handleEmailSubmit = async (e) => {
@@ -74,7 +73,7 @@ const ResetPassword = () => {
                 to="/"
                 className="position-absolute top-0 start-0 p-4 d-flex align-items-center gap-2 text-decoration-none"
             >
-                <img src={Assets.logo} alt="logo" height={32} width={32}/>
+                <img src={Assets.logo} alt="logo" height={32} width={32} />
                 <span className="fs-4 fw-semibold text-light">
                     Authify
                 </span>
@@ -82,10 +81,10 @@ const ResetPassword = () => {
 
             {!isEmailSent && (
                 <div className="rounded-4 p-5 text-center bg-white"
-                     style={{
-                         width: "100%",
-                         maxWidth: "400px"
-                     }}>
+                    style={{
+                        width: "100%",
+                        maxWidth: "400px"
+                    }}>
                     <h4 className="mb-2">
                         Reset Password
                     </h4>
@@ -98,19 +97,19 @@ const ResetPassword = () => {
                                 <i className="bi bi-envelope"></i>
                             </span>
                             <input type="email"
-                                   placeholder="Enter email address"
-                                   className="form-control bg-transparent border-0 ps-1 pe-4 rounded-end"
-                                   style={{
-                                       height: "50px",
-                                   }}
-                                   onChange={(e) => setEmail(e.target.value)}
-                                   value={email}
-                                   required
+                                placeholder="Enter email address"
+                                className="form-control bg-transparent border-0 ps-1 pe-4 rounded-end"
+                                style={{
+                                    height: "50px",
+                                }}
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={email}
+                                required
                             />
                         </div>
                         <button className="btn btn-primary w-100 py-2"
-                                onClick={(e) => handleEmailSubmit(e)}
-                                disabled={loading}
+                            onClick={(e) => handleEmailSubmit(e)}
+                            disabled={loading}
                         >
                             {loading ? "Loading..." : "Submit"}
                         </button>
@@ -161,10 +160,10 @@ const ResetPassword = () => {
             )}
             {isOtpSubmitted && isEmailSent && (
                 <div className="rounded-4 p-4 text-center bg-white"
-                     style={{
-                         width: "100%",
-                         maxWidth: "400px"
-                     }}>
+                    style={{
+                        width: "100%",
+                        maxWidth: "400px"
+                    }}>
                     <h4>
                         New Password
                     </h4>
@@ -176,19 +175,19 @@ const ResetPassword = () => {
                             <i className="bi bi-person-fill-lock"></i>
                         </span>
                         <input type="password"
-                               className="form-control bg-transparent ps-1 pe-4 rounded-end border-0"
-                               placeholder="Enter password"
-                               style={{
-                                   height: "50px"
-                               }}
-                               onChange={(e) => setNewPassword(e.target.value)}
-                               value={newPassword}
-                               required
+                            className="form-control bg-transparent ps-1 pe-4 rounded-end border-0"
+                            placeholder="Enter password"
+                            style={{
+                                height: "50px"
+                            }}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            value={newPassword}
+                            required
                         />
                         <button type="submit"
-                                className="btn btn-primary w-100"
-                                disabled={loading}
-                                onClick={(e) => handlePasswordSubmit(e)}>
+                            className="btn btn-primary w-100"
+                            disabled={loading}
+                            onClick={(e) => handlePasswordSubmit(e)}>
                             {loading ? "Loading..." : "Submit"}
                         </button>
                     </form>

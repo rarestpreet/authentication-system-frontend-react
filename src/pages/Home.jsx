@@ -1,13 +1,14 @@
 import Header from "../components/Header";
 import MenuBar from "../components/MenuBar";
-import { useRouteToast } from "../components/RouteRedirect.jsx";
+import { useAppContext } from "../context/AppContext";
 
 const Home = () => {
-    useRouteToast()
+    const { userData } = useAppContext()
+    console.log(userData)
 
     return (
         <div className="d-flex flex-column aling-items-center justify-content-center min-vh-100">
-            <MenuBar/>
+            <MenuBar />
             <Header />
         </div>
     )
