@@ -1,8 +1,6 @@
-import { toast } from "react-toastify"
-
-export const notifySuccess = (msg) => toast.success(msg)
-export const notifyError = (msg) => toast.error(msg)
-export const notifyInfo = (msg) => toast.info(msg)
+export const notifySuccess = (msg) => alert("[SUCCESS]" + msg)
+export const notifyError = (msg) => alert("[ERROR]" + msg)
+export const notifyInfo = (msg) => alert("[INFO]" + msg)
 
 const handleToast = {
     notifyError,
