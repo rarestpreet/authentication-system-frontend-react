@@ -10,7 +10,6 @@ const getUserData = async (setLoading, setUserData) => {
             "/profile",
         )
 
-        handleSessionStorage.saveUserData_Session(response?.data)
         setUserData(response.data)
         return response.data
     } catch (ex) {
@@ -51,7 +50,7 @@ const requestPasswordOtp = async (email, setLoading, setIsEmailSent) => {
 
         handleToast.notifySuccess("Otp sent on email")
         setIsEmailSent(true)
-        handleSessionStorage.saveResetState({email, isEmailSent: true, otp: "", isOtpSubmitted: false})
+        handleSessionStorage.saveResetState({ email, isEmailSent: true, otp: "", isOtpSubmitted: false })
     } catch (ex) {
         const msg = ex.response?.data?.message || "Network error"
         handleToast.notifyError(msg)
@@ -66,7 +65,6 @@ const logout = async (setUserData) => {
             "/logout"
         )
 
-        handleSessionStorage.clearUserProfile_Session()
         setUserData({})
         handleToast.notifySuccess("Logged out successfully")
     } catch (ex) {
@@ -95,14 +93,12 @@ const verifyEmail = async (otp, setLoading, navigate, setUserData) => {
     try {
         await api.post(
             "/verify-email",
-            {otp}
+            { otp }
         )
 
         handleToast.notifySuccess("Email verified successfully")
         await getUserData(setLoading, setUserData)
-        if (typeof navigate === "function") {
-            navigate("/")
-        }
+        navigate("/")
     } catch (ex) {
         const msg = ex.response?.data?.message || "Network error"
         handleToast.notifyError(msg)
@@ -137,7 +133,7 @@ const login = async (user, navigate, setLoading, setUserData) => {
 
         handleToast.notifySuccess("Logged in successfully")
         await getUserData(setLoading, setUserData)
-        navigate("/", { state: { fromLogin: true }, replace: true })
+        navigate("/")
     } catch (ex) {
         const msg = ex.response?.data?.message || "Network error"
         handleToast.notifyError(msg)
