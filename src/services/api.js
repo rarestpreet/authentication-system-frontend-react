@@ -15,7 +15,7 @@ const getUserData = async (setLoading, setUserData) => {
     } catch (ex) {
         if (ex.response?.status !== 401) {
             const msg = ex.response?.data?.message || "Network error"
-            handleToast.notifyError(msg)
+            // handleToast.notifyError(msg) // muted for silent loading
         }
     } finally {
         setLoading(false)
@@ -25,7 +25,7 @@ const getUserData = async (setLoading, setUserData) => {
 const resetPassword = async (info, navigate, setLoading, setUserData) => {
     try {
         await api.post(
-            "/reset-password",
+            "/auth/reset-password",
             info
         )
 
@@ -33,7 +33,6 @@ const resetPassword = async (info, navigate, setLoading, setUserData) => {
         await logout(setUserData)
         handleToast.notifySuccess("Password changed successfully!")
         navigate("/login")
-
     } catch (ex) {
         const msg = ex.response?.data?.message || "Network error"
         handleToast.notifyError(msg)
@@ -45,7 +44,7 @@ const resetPassword = async (info, navigate, setLoading, setUserData) => {
 const requestPasswordOtp = async (email, setLoading, setIsEmailSent) => {
     try {
         await api.post(
-            `send-reset-otp?email=${email}`
+            `/auth/send-reset-otp?email=${email}`
         )
 
         handleToast.notifySuccess("Otp sent on email")
@@ -62,7 +61,7 @@ const requestPasswordOtp = async (email, setLoading, setIsEmailSent) => {
 const logout = async (setUserData) => {
     try {
         await api.post(
-            "/logout"
+            "/auth/logout"
         )
 
         setUserData({})
@@ -76,7 +75,7 @@ const logout = async (setUserData) => {
 const sendVerificationOtp = async (navigate) => {
     try {
         await api.get(
-            "/send-verify-otp"
+            "/auth/send-verify-otp"
         )
 
         handleToast.notifySuccess("Otp sent successfully")
@@ -92,7 +91,7 @@ const verifyEmail = async (otp, setLoading, navigate, setUserData) => {
 
     try {
         await api.post(
-            "/verify-email",
+            "/auth/verify-email",
             { otp }
         )
 
@@ -110,12 +109,12 @@ const verifyEmail = async (otp, setLoading, navigate, setUserData) => {
 const register = async (user, navigate, setLoading) => {
     try {
         await api.post(
-            "/register",
+            "/auth/register",
             user
         )
 
         handleToast.notifySuccess("Account created successfully")
-        navigate("/")
+        navigate("/login")
     } catch (ex) {
         const msg = ex.response?.data?.message || "Network error";
         handleToast.notifyError(msg)
@@ -127,7 +126,7 @@ const register = async (user, navigate, setLoading) => {
 const login = async (user, navigate, setLoading, setUserData) => {
     try {
         await api.post(
-            "/login",
+            "/auth/login",
             user
         )
 
@@ -142,6 +141,87 @@ const login = async (user, navigate, setLoading, setUserData) => {
     }
 }
 
+const createTodo = async (task) => {
+    try {
+        const response = await api.post(
+            "/todo",
+            { task }
+        )
+        handleToast.notifySuccess("Todo created")
+        return response.data
+    } catch (ex) {
+        const msg = ex.response?.data?.message || "Failed to create todo"
+        handleToast.notifyError(msg)
+        throw ex
+    }
+}
+
+const getTodos = async () => {
+    try {
+        const response = await api.get(
+            "/todo"
+        )
+        return response.data
+    } catch (ex) {
+        const msg = ex.response?.data?.message || "Failed to fetch todos"
+        handleToast.notifyError(msg)
+        return []
+    }
+}
+
+const updateTodo = async (id, task) => {
+    try {
+        await api.put(
+            `/todo/${id}`,
+            { task }
+        )
+        handleToast.notifySuccess("Todo updated")
+    } catch (ex) {
+        const msg = ex.response?.data?.message || "Failed to update todo"
+        handleToast.notifyError(msg)
+        throw ex
+    }
+}
+
+const deleteTodo = async (id) => {
+    try {
+        await api.delete(
+            `/todo/${id}`
+        )
+        handleToast.notifySuccess("Todo deleted")
+    } catch (ex) {
+        const msg = ex.response?.data?.message || "Failed to delete todo"
+        handleToast.notifyError(msg)
+        throw ex
+    }
+}
+
+const getAllUsersAdmin = async () => {
+    try {
+        const response = await api.get(
+            "profile/admin/all"
+        )
+        return response.data
+    } catch (ex) {
+        const msg = ex.response?.data?.message || "Failed to fetch users"
+        handleToast.notifyError(msg)
+        return []
+    }
+}
+
+const getAllTodosAdmin = async () => {
+    try {
+        const response = await api.get(
+            "/todo/admin/all"
+        )
+        return response.data
+    } catch (ex) {
+        const msg = ex.response?.data?.message || "Failed to fetch all todos"
+        handleToast.notifyError(msg)
+        return []
+    }
+}
+
 const apiMethod = {
     login,
     logout,
@@ -151,6 +231,12 @@ const apiMethod = {
     sendVerificationOtp,
     verifyEmail,
     register,
+    createTodo,
+    getTodos,
+    updateTodo,
+    deleteTodo,
+    getAllUsersAdmin,
+    getAllTodosAdmin
 }
 
 export default apiMethod

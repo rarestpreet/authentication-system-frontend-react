@@ -6,14 +6,11 @@ import 'bootstrap/dist/js/bootstrap.bundle.js'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { BrowserRouter } from 'react-router-dom'
 import AppContextProvider from './components/AppContextProvider.jsx'
-import { StrictMode } from 'react'
 
 createRoot(document.getElementById('root')).render(
-    <StrictMode>
-        <BrowserRouter>
-            <AppContextProvider>
-                <App />
-            </AppContextProvider>
-        </BrowserRouter>
-    </StrictMode>
+    <BrowserRouter>
+        <AppContextProvider>
+            <App />
+        </AppContextProvider>
+    </BrowserRouter>
 )

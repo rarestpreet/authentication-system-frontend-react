@@ -4,7 +4,8 @@ export const AppContext = createContext({
     userData: {
         userId: "",
         username: "",
-        isAccountVerified: false
+        isAccountVerified: false,
+        role: ""
     },
     setUserData: () => { },
     loading: false,

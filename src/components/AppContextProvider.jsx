@@ -10,11 +10,12 @@ const AppContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
     const location = useLocation()
-
+    const isAdmin = userData?.role === "ADMIN"
 
     const contextValue = {
         userData, setUserData,
-        loading, setLoading
+        loading, setLoading,
+        isAdmin
     }
 
     useEffect(() => {
