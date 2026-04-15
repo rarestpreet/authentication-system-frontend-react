@@ -18,16 +18,18 @@ const EmailVerify = () => {
             return
         }
 
-        await apiMethod.verifyEmail(otp, setLoading, navigate, setUserData)
+        try {
+            await apiMethod.verifyEmail(otp, setLoading, navigate, setUserData)
+        } catch (e) {
+            // Error handled in apiMethod
+        }
     }
 
 
     return (
         <div
             className="email-verify-container d-flex align-items-center justify-content-center vh-100 position-relative"
-            style={{
-                background: "linear-gradient(90deg, #6a5af9, #8268f9)"
-            }}
+            style={{ backgroundColor: "var(--bg-primary)" }}
         >
             <Link
                 to="/"
@@ -40,12 +42,9 @@ const EmailVerify = () => {
             </Link>
 
             <div
-                className="p-5 rounded-4 shadow"
+                className="glass-panel p-5 shadow-lg text-white"
                 style={{
-                    width: "400px",
-                    background: "rgba(255,255,255,0.1)",
-                    backdropFilter: "blur(12px)",
-                    border: "1px solid rgba(255,255,255,0.2)"
+                    width: "400px"
                 }}
             >
                 <h4 className="text-center text-light fw-bold mb-2">
@@ -62,7 +61,7 @@ const EmailVerify = () => {
                             key={i}
                             type="text"
                             maxLength={1}
-                            className="form-control text-center fs-4 otp-input"
+                            className="input-field text-center fs-4 otp-input p-2"
                             ref={(el) => {
                                 inputRef.current[i] = el
                             }}

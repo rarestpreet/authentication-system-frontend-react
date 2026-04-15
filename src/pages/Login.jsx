@@ -24,23 +24,29 @@ const Login = () => {
                 email: email
             }
 
-            await apiMethod.register(user, navigate, setLoading)
+            try {
+                await apiMethod.register(user, navigate, setLoading)
+            } catch (e) {
+                // Error handled in apiMethod
+            }
         } else {
             const user = {
                 password: password,
                 email: email
             }
 
-            await apiMethod.login(user, navigate, setLoading, setUserData)
+            try {
+                await apiMethod.login(user, navigate, setLoading, setUserData)
+            } catch (e) {
+                // Error handled in apiMethod
+            }
         }
     }
 
     return (
         <div
             className="position-relative min-vh-100 d-flex justify-content-center align-items-center"
-            style={{
-                background: "linear-gradient(90deg, #6a5af9, #8268f9)"
-            }}
+            style={{ backgroundColor: "var(--bg-primary)" }}
         >
             <Link
                 to="/"
@@ -55,7 +61,7 @@ const Login = () => {
                 <span>Authify</span>
             </Link>
 
-            <div className="card p-4" style={{ maxWidth: "400px", width: "100%" }}>
+            <div className="glass-panel p-4 shadow-lg text-white" style={{ maxWidth: "400px", width: "100%" }}>
                 <h2 className="text-center mb-4">
                     {isCreateAccount ? "Create Account" : "Login"}
                 </h2>
@@ -71,7 +77,7 @@ const Login = () => {
                                 <input
                                     type="text"
                                     id="username"
-                                    className="form-control"
+                                    className="input-field"
                                     placeholder="Enter username"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
@@ -88,7 +94,7 @@ const Login = () => {
                         <input
                             type="email"
                             id="email"
-                            className="form-control"
+                            className="input-field"
                             placeholder="Enter email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -103,14 +109,14 @@ const Login = () => {
                         <input
                             type="password"
                             id="password"
-                            className="form-control"
+                            className="input-field"
                             placeholder="Enter password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required />
                     </div>
                     <div className="d-flex justify-content-between mb-3">
-                        <Link to="/reset-password" className="text-decoration-none">
+                        <Link to="/reset-password" className="text-secondary text-decoration-none">
                             Forgot password?</Link>
                     </div>
                     <div className="d-flex justify-content-center">

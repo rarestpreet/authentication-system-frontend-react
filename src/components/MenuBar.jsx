@@ -1,14 +1,14 @@
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Assets from "../assets/assets";
-import {useAppContext} from "../context/AppContext.js";
-import {useRef, useState, useEffect} from "react";
+import { useAppContext } from "../context/AppContext.js";
+import { useRef, useState, useEffect } from "react";
 import apiMethod from "../services/api.js";
 
 const MenuBar = () => {
     const [dropDownOpen, setDropDownOpen] = useState(false)
     const dropDownRef = useRef(null)
     const navigate = useNavigate();
-    const {userData, setUserData} = useAppContext()
+    const { userData, setUserData } = useAppContext()
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -28,18 +28,26 @@ const MenuBar = () => {
     }, [])
 
     return (
-        <nav className="navbar">
+        <nav className="container navbar d-flex justify-content-center"
+            style={{
+                width: "100%"
+            }}>
             <div
-                className="container bg-light px-5 py-4 d-flex rounded-pill justify-content-between align-items-center">
+                className="glass-panel px-4 py-3 mt-4 d-flex rounded-pill justify-content-between align-items-center mx-3"
+                style={{
+                    width: "100%",
+                    userSelect: "none",
+                }}
+            >
                 <div className="d-flex align-items-center gap-2">
-                    <img src={Assets.logo} alt="logo" width={32} height={32}/>
-                    <span className="fw-bold fs-4 text-dark">Authify</span>
+                    <img src={Assets.logo} alt="logo" width={32} height={32} />
+                    <span className="fw-bold fs-4 text-white">Authify</span>
                 </div>
 
                 {userData?.username ? (
                     <div className="position-relative" ref={dropDownRef}>
                         <div
-                            className="bg-dark text-white rounded-circle d-flex justify-content-center align-items-center cursor-pointer"
+                            className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center cursor-pointer"
                             style={{
                                 width: "40px",
                                 height: "40px",
@@ -51,40 +59,40 @@ const MenuBar = () => {
                             {userData.username[0].toUpperCase()}
                         </div>
                         {dropDownOpen && (
-                            <div className="position-absolute shadow bg-white rounded p-2"
-                                 style={{
-                                     top: "50px",
-                                     zIndex: 1000,
-                                     right: 0
-                                 }}
+                            <div className="position-absolute shadow glass-panel p-2 mt-2"
+                                style={{
+                                    top: "50px",
+                                    zIndex: 1000,
+                                    right: 0
+                                }}
                             >
-                                {!userData.isAccountVerified && (
-                                    <div className="dropdown-item py-1 px-2"
-                                         style={{
-                                             cursor: "pointer"
-                                         }}
-                                         onClick={() => {
-                                             apiMethod.sendVerificationOtp(navigate)
-                                         }}
+                                {!userData.isAccountVerified && userData.role != "ADMIN" && (
+                                    <div className="dropdown-item py-1 px-2 text-white"
+                                        style={{
+                                            cursor: "pointer"
+                                        }}
+                                        onClick={() => {
+                                            apiMethod.sendVerificationOtp(navigate)
+                                        }}
                                     >
                                         Verify email
                                     </div>
                                 )}
-                                <div className="dropdown-item py-1 px-2"
-                                     style={{
-                                         cursor: "pointer"
-                                     }}
-                                     onClick={() => navigate("/reset-password")}
+                                {userData.role != "ADMIN" && <div className="dropdown-item py-1 px-2 text-white"
+                                    style={{
+                                        cursor: "pointer"
+                                    }}
+                                    onClick={() => navigate("/reset-password")}
                                 >
                                     Change password
-                                </div>
+                                </div>}
                                 <div className="dropdown-item py-1 px-2 text-danger"
-                                     style={{
-                                         cursor: "pointer"
-                                     }}
-                                     onClick={() => {
-                                         apiMethod.logout(setUserData)
-                                     }}
+                                    style={{
+                                        cursor: "pointer"
+                                    }}
+                                    onClick={() => {
+                                        apiMethod.logout(setUserData)
+                                    }}
                                 >
                                     Logout
                                 </div>
@@ -93,7 +101,7 @@ const MenuBar = () => {
                     </div>
                 ) : (
                     <button
-                        className="btn btn-outline-dark rounded-pill px-3"
+                        className="btn-primary rounded-pill px-4"
                         onClick={() => {
                             navigate("/login")
                         }}

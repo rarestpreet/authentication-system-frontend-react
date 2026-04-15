@@ -24,7 +24,11 @@ const ResetPassword = () => {
         e.preventDefault()
         setLoading(true)
 
-        await apiMethod.requestPasswordOtp(email, setLoading, setIsEmailSent)
+        try {
+            await apiMethod.requestPasswordOtp(email, setLoading, setIsEmailSent)
+        } catch (e) {
+            // Error handled in apiMethod
+        }
     }
 
     const handleOtpVerify = () => {
@@ -57,17 +61,17 @@ const ResetPassword = () => {
             otp: otp
         }
 
-        await apiMethod.resetPassword(info, navigate, setLoading, setUserData)
-
+        try {
+            await apiMethod.resetPassword(info, navigate, setLoading, setUserData)
+        } catch (e) {
+            // Error handled in apiMethod
+        }
     }
 
     return (
         <div
             className="email-verify-contailer d-flex align-items-center justify-content-center vh-100 position-relative"
-            style={{
-                background: "linear-gradient(90deg, #6a5af9, #8268f9)",
-                border: "none"
-            }}
+            style={{ backgroundColor: "var(--bg-primary)" }}
         >
             <Link
                 to="/"
@@ -80,7 +84,7 @@ const ResetPassword = () => {
             </Link>
 
             {!isEmailSent && (
-                <div className="rounded-4 p-5 text-center bg-white"
+                <div className="glass-panel p-5 text-center shadow-lg text-white"
                     style={{
                         width: "100%",
                         maxWidth: "400px"
@@ -92,21 +96,13 @@ const ResetPassword = () => {
                         Enter your registered email address
                     </p>
                     <form>
-                        <div className="input-group mb-4 bg-secondary bg-opacity-10 rounded-pill">
-                            <span className="input-group-text bg-transparent border-0 ps-4">
-                                <i className="bi bi-envelope"></i>
-                            </span>
-                            <input type="email"
-                                placeholder="Enter email address"
-                                className="form-control bg-transparent border-0 ps-1 pe-4 rounded-end"
-                                style={{
-                                    height: "50px",
-                                }}
-                                onChange={(e) => setEmail(e.target.value)}
-                                value={email}
-                                required
-                            />
-                        </div>
+                        <input type="email"
+                            placeholder="Enter email address"
+                            className="input-field mb-4"
+                            onChange={(e) => setEmail(e.target.value)}
+                            value={email}
+                            required
+                        />
                         <button className="btn btn-primary w-100 py-2"
                             onClick={(e) => handleEmailSubmit(e)}
                             disabled={loading}
@@ -119,13 +115,8 @@ const ResetPassword = () => {
 
             {!isOtpSubmitted && isEmailSent && (
                 <div
-                    className="p-5 rounded-4 shadow"
-                    style={{
-                        width: "400px",
-                        background: "rgba(255,255,255,0.1)",
-                        backdropFilter: "blur(12px)",
-                        border: "1px solid rgba(255,255,255,0.2)"
-                    }}
+                    className="glass-panel p-5 shadow-lg text-white"
+                    style={{ width: "400px" }}
                 >
                     <h4 className="text-center text-light fw-bold mb-2">
                         Email Verify OTP
@@ -139,7 +130,7 @@ const ResetPassword = () => {
                                 key={i}
                                 type="text"
                                 maxLength={1}
-                                className="form-control text-center fs-4 otp-input"
+                                className="input-field text-center fs-4 otp-input p-2"
                                 ref={(el) => {
                                     inputRef.current[i] = el
                                 }}
@@ -159,7 +150,7 @@ const ResetPassword = () => {
                 </div>
             )}
             {isOtpSubmitted && isEmailSent && (
-                <div className="rounded-4 p-4 text-center bg-white"
+                <div className="glass-panel p-5 text-center shadow-lg text-white"
                     style={{
                         width: "100%",
                         maxWidth: "400px"
@@ -170,22 +161,16 @@ const ResetPassword = () => {
                     <p className="mb-4">
                         Enter the new password below
                     </p>
-                    <form className="input-group bg-secondary border-opacity-10 rounded-pill">
-                        <span className="input-group-text bg-transparent border-0 ps-4">
-                            <i className="bi bi-person-fill-lock"></i>
-                        </span>
+                    <form className="d-flex flex-column gap-3">
                         <input type="password"
-                            className="form-control bg-transparent ps-1 pe-4 rounded-end border-0"
+                            className="input-field"
                             placeholder="Enter password"
-                            style={{
-                                height: "50px"
-                            }}
                             onChange={(e) => setNewPassword(e.target.value)}
                             value={newPassword}
                             required
                         />
                         <button type="submit"
-                            className="btn btn-primary w-100"
+                            className="btn-primary w-100 py-2"
                             disabled={loading}
                             onClick={(e) => handlePasswordSubmit(e)}>
                             {loading ? "Loading..." : "Submit"}
