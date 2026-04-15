@@ -53,6 +53,16 @@ The frontend communicates with the backend using **Axios** for API requests and 
 
 ---
 
+z## Demo
+
+- The gif below shows a `user` loging in:
+
+  ![user-login](documentation/user-login.gif)
+
+- The gif below shows an `admin` loging in:
+
+  ![admin-login](documentation/admin-login.gif)
+
 ## Installation
 
 ### 1️. Clone the repository
